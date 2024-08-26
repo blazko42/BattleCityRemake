@@ -1,9 +1,10 @@
-[gd_scene load_steps=42 format=3 uid="uid://d2ar8dmff37en"]
+[gd_scene load_steps=43 format=3 uid="uid://d2ar8dmff37en"]
 
 [ext_resource type="Script" path="res://scripts/characters/PrototypeCharacter.cs" id="1_41qwj"]
 [ext_resource type="Texture2D" uid="uid://blqfo4yayyqqq" path="res://assets/sprites/main_player_sprite.png" id="2_lvtac"]
-[ext_resource type="PackedScene" uid="uid://burn324nhg6bt" path="res://scenes/projectiles/shell.tscn" id="2_v7od4"]
-[ext_resource type="PackedScene" uid="uid://4te7xds54kfa" path="res://scenes/effects/spawn.tscn" id="3_cypaf"]
+[ext_resource type="PackedScene" uid="uid://burn324nhg6bt" path="res://scenes/projectiles/shell_projectile.tscn" id="2_v7od4"]
+[ext_resource type="PackedScene" uid="uid://4te7xds54kfa" path="res://scenes/effects/spawn_effect.tscn" id="3_7egkq"]
+[ext_resource type="PackedScene" uid="uid://cspc62p8040n" path="res://scenes/effects/invulnerability_effect.tscn" id="4_0lwvo"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ygq71"]
 atlas = ExtResource("2_lvtac")
@@ -545,7 +546,8 @@ graph_offset = Vector2(-38, -118)
 [node name="PrototypeCharacterCharacterBody2D" type="CharacterBody2D"]
 script = ExtResource("1_41qwj")
 Projectile = ExtResource("2_v7od4")
-SpawnEffect = ExtResource("3_cypaf")
+SpawnEffect = ExtResource("3_7egkq")
+InvulnerabilityEffect = ExtResource("4_0lwvo")
 metadata/_edit_group_ = true
 
 [node name="PrototypeCharacterAnimatedSprite2D" type="AnimatedSprite2D" parent="."]

@@ -1,0 +1,21 @@
+[gd_scene load_steps=4 format=3 uid="uid://burn324nhg6bt"]
+
+[ext_resource type="Script" path="res://scripts/projectiles/ShellProjectile.cs" id="1_ymslp"]
+[ext_resource type="Texture2D" uid="uid://be5nvh1ijpp11" path="res://assets/sprites/battle_city_extras.png" id="2_e61de"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_p582q"]
+size = Vector2(4.15813, 4.12216)
+
+[node name="ShellProjectileCollisionArea2D" type="Area2D"]
+script = ExtResource("1_ymslp")
+
+[node name="ShellProjectileSprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_e61de")
+region_enabled = true
+region_rect = Rect2(67, 6, 3, 3.99488)
+
+[node name="ShellProjectileCollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-0.00737381, 0)
+shape = SubResource("RectangleShape2D_p582q")
+
+[connection signal="body_entered" from="." to="." method="OnShellProjectileBodyEntered"]

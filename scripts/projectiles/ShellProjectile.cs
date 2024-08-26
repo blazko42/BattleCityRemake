@@ -1,22 +1,23 @@
 using Godot;
 
-public partial class Shell : Area2D
+public partial class ShellProjectile : Area2D
 {
 
+    #region Properties
     #region Generic
-    #endregion
-
-    #region Projectile
     [Export]
     public float ShellSpeed = 100.0f;
 
     public Vector2 ShellDirection = Vector2.Zero;
 
     #endregion
+    #endregion
 
+    #region  Methods
+    #region  Overrides
     public override void _Ready()
     {
-
+        ReadySceneNodes();
     }
 
     public override void _Process(double delta)
@@ -28,9 +29,20 @@ public partial class Shell : Area2D
     {
         GlobalPosition += ShellDirection * ShellSpeed * (float)delta;
     }
+    #endregion
 
-    public void OnShellBodyEntered(Node2D body)
+    #region Generic
+    private void ReadySceneNodes()
+    {
+
+    }
+    #endregion
+
+    #region Signals
+    public void OnShellProjectileBodyEntered(Node2D body)
     {
         CallDeferred(Node2D.MethodName.QueueFree);
     }
+    #endregion
+    #endregion
 }

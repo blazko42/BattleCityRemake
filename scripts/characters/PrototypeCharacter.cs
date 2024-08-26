@@ -4,6 +4,7 @@ using Godot;
 
 public partial class PrototypeCharacter : CharacterBody2D
 {
+	#region Properties
 	#region Generic
 	private Node _characterParentNode;
 	#endregion
@@ -12,11 +13,12 @@ public partial class PrototypeCharacter : CharacterBody2D
 	[Export]
 	public float CharacterSpeed = 2000.0f;
 
-
 	private Vector2 _characterDirection = Vector2.Zero;
 	private Vector2 _characterLastNonZeroDirection = Vector2.Up;
 	private float _characterMagnitude;
 	private List<string> _inputBuffer = new();
+	private bool _characterCanMove = false;
+	private bool _characterCanShoot = false;
 
 	private AnimatedSprite2D _characterAnimatedSprite;
 	private AnimationTree _characterAnimationTree;
@@ -29,7 +31,6 @@ public partial class PrototypeCharacter : CharacterBody2D
 	#endregion
 
 	#region  Effects
-
 	#region Spawn effect
 	[Export]
 	public PackedScene SpawnEffect;
@@ -39,9 +40,11 @@ public partial class PrototypeCharacter : CharacterBody2D
 	[Export]
 	public PackedScene InvulnerabilityEffect;
 	#endregion
-
+	#endregion
 	#endregion
 
+	#region  Methods
+	#region  Overrides
 	public override void _Ready()
 	{
 		ReadySceneNodes();
@@ -50,9 +53,12 @@ public partial class PrototypeCharacter : CharacterBody2D
 
 	public override void _Process(double delta)
 	{
-		HandleCharacterMovementWithBuffer();
+		if (_characterCanMove)
+		{
+			HandleCharacterMovementWithBuffer();
+		}
 
-		if (Input.IsActionJustPressed("shoot"))
+		if (Input.IsActionJustPressed("shoot") && _characterCanShoot)
 		{
 			Shoot();
 		}
@@ -68,7 +74,9 @@ public partial class PrototypeCharacter : CharacterBody2D
 
 		MoveAndSlide();
 	}
+	#endregion
 
+	#region Generic
 	private void ReadySceneNodes()
 	{
 		_characterParentNode = GetParent<Node>();
@@ -80,6 +88,7 @@ public partial class PrototypeCharacter : CharacterBody2D
 
 		_characterMarker = GetNode<Marker2D>("PrototypeCharacterMarker2D");
 	}
+	#endregion
 
 	#region Character movement
 	private void HandleCharacterMovementWithBuffer()
@@ -201,39 +210,53 @@ public partial class PrototypeCharacter : CharacterBody2D
 
 		_characterMagnitude = _characterDirection.Length();
 	}
-
 	#endregion
 
 	#region Character shooting
-	public void Shoot()
+	public async void Shoot()
 	{
-		Shell shellProjectile = (Shell)Projectile.Instantiate();
+		_characterCanShoot = false;
+
+		ShellProjectile shellProjectile = (ShellProjectile)Projectile.Instantiate();
 
 		shellProjectile.GlobalPosition = _characterMarker.GlobalPosition;
 		shellProjectile.GlobalRotationDegrees = GlobalRotationDegrees;
 		shellProjectile.ShellDirection = _characterLastNonZeroDirection;
 
 		_characterParentNode.AddChild(shellProjectile);
+
+		await ToSignal(shellProjectile, "body_entered");
+
+		_characterCanShoot = true;
 	}
 	#endregion
 
 	#region Character spawning effect
-	public void SpawnCharacter()
+	public async void SpawnCharacter()
 	{
-		Spawn spawnEffect = (Spawn)SpawnEffect.Instantiate();
+		SpawnEffect spawnEffect = (SpawnEffect)SpawnEffect.Instantiate();
 
 		spawnEffect.GlobalPosition = GlobalPosition;
 
 		_characterParentNode.CallDeferred(Node2D.MethodName.AddChild, spawnEffect);
 
-		Visible = true; // should also have the character not being able to shoot
+		await ToSignal(spawnEffect, "animation_finished");
+
+		Visible = true;
+		_characterCanMove = true;
+		_characterCanShoot = true;
+
+		EnableInvulnerability();
 	}
 	#endregion
 
 	#region Character invulnerability effect
-	public void Invulnerability()
+	public void EnableInvulnerability()
 	{
+		InvulnerabilityEffect invulnerabilityEffect = (InvulnerabilityEffect)InvulnerabilityEffect.Instantiate();
 
+		CallDeferred(Node2D.MethodName.AddChild, invulnerabilityEffect);
 	}
+	#endregion
 	#endregion
 }
