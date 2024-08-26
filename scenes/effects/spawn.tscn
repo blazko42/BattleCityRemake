@@ -1,0 +1,55 @@
+[gd_scene load_steps=8 format=3 uid="uid://4te7xds54kfa"]
+
+[ext_resource type="Texture2D" uid="uid://be5nvh1ijpp11" path="res://assets/sprites/battle_city_extras.png" id="1_v3253"]
+[ext_resource type="Script" path="res://scripts/effects/Spawn.cs" id="2_srnx8"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_e8nun"]
+atlas = ExtResource("1_v3253")
+region = Rect2(0, 0, 16, 15)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_evvmm"]
+atlas = ExtResource("1_v3253")
+region = Rect2(16, 0, 16, 15)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vtfmg"]
+atlas = ExtResource("1_v3253")
+region = Rect2(32, 0, 16, 15)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_g0teu"]
+atlas = ExtResource("1_v3253")
+region = Rect2(48, 0, 16, 15)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_mp8io"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_e8nun")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_evvmm")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vtfmg")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_g0teu")
+}],
+"loop": false,
+"name": &"default",
+"speed": 10.0
+}]
+
+[node name="SpawnAnimatedSprite2D" type="AnimatedSprite2D"]
+visible = false
+sprite_frames = SubResource("SpriteFrames_mp8io")
+frame = 3
+frame_progress = 1.0
+script = ExtResource("2_srnx8")
+
+[node name="SpawnDelayTimer" type="Timer" parent="."]
+process_callback = 0
+one_shot = true
+autostart = true
+
+[connection signal="animation_finished" from="." to="." method="OnAnimationFinished"]
+[connection signal="timeout" from="SpawnDelayTimer" to="." method="OnSpawnDelayTimerTimeout"]
