@@ -1,0 +1,35 @@
+[gd_scene load_steps=6 format=3 uid="uid://c4sxmqiui0mtr"]
+
+[ext_resource type="Texture2D" uid="uid://be5nvh1ijpp11" path="res://assets/sprites/battle_city_extras.png" id="1_23mu6"]
+[ext_resource type="Script" path="res://scripts/effects/DestructionEffect.cs" id="2_wynfs"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_eitj4"]
+atlas = ExtResource("1_23mu6")
+region = Rect2(48, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3dxhk"]
+atlas = ExtResource("1_23mu6")
+region = Rect2(80, 32, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_iqil6"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_eitj4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3dxhk")
+}],
+"loop": false,
+"name": &"default",
+"speed": 20.0
+}]
+
+[node name="DestructionEffectAnimatedSprite2d" type="AnimatedSprite2D"]
+sprite_frames = SubResource("SpriteFrames_iqil6")
+autoplay = "default"
+frame = 1
+frame_progress = 1.0
+script = ExtResource("2_wynfs")
+
+[connection signal="animation_finished" from="." to="." method="OnAnimationFinished"]

@@ -5,14 +5,12 @@ using Godot;
 public partial class PrototypeCharacter : CharacterBody2D
 {
 	#region Properties
-	#region Generic
-	private Node _characterParentNode;
-	#endregion
 
 	#region Character
 	[Export]
 	public float CharacterSpeed = 2000.0f;
 
+	private Node _characterParentNode;
 	private Vector2 _characterDirection = Vector2.Zero;
 	private Vector2 _characterLastNonZeroDirection = Vector2.Up;
 	private float _characterMagnitude;
@@ -31,6 +29,7 @@ public partial class PrototypeCharacter : CharacterBody2D
 	#endregion
 
 	#region  Effects
+
 	#region Spawn effect
 	[Export]
 	public PackedScene SpawnEffect;
@@ -40,10 +39,13 @@ public partial class PrototypeCharacter : CharacterBody2D
 	[Export]
 	public PackedScene InvulnerabilityEffect;
 	#endregion
+
 	#endregion
+
 	#endregion
 
 	#region  Methods
+
 	#region  Overrides
 	public override void _Ready()
 	{
@@ -190,7 +192,7 @@ public partial class PrototypeCharacter : CharacterBody2D
 		}
 	}
 
-	//not used
+	//not used - just here for the sake of exercise
 	private void HandleCharacterMovementWithoutBuffer()
 	{
 		_characterDirection = Input.GetVector("left", "right", "up", "down").Normalized();
@@ -221,7 +223,7 @@ public partial class PrototypeCharacter : CharacterBody2D
 
 		shellProjectile.GlobalPosition = _characterMarker.GlobalPosition;
 		shellProjectile.GlobalRotationDegrees = GlobalRotationDegrees;
-		shellProjectile.ShellDirection = _characterLastNonZeroDirection;
+		shellProjectile.ShellProjectileDirection = _characterLastNonZeroDirection;
 
 		_characterParentNode.AddChild(shellProjectile);
 
@@ -246,17 +248,18 @@ public partial class PrototypeCharacter : CharacterBody2D
 		_characterCanMove = true;
 		_characterCanShoot = true;
 
-		EnableInvulnerability();
+		EnableInvulnerabilityEffect();
 	}
 	#endregion
 
 	#region Character invulnerability effect
-	public void EnableInvulnerability()
+	public void EnableInvulnerabilityEffect()
 	{
 		InvulnerabilityEffect invulnerabilityEffect = (InvulnerabilityEffect)InvulnerabilityEffect.Instantiate();
 
 		CallDeferred(Node2D.MethodName.AddChild, invulnerabilityEffect);
 	}
 	#endregion
+
 	#endregion
 }

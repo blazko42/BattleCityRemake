@@ -1,0 +1,42 @@
+[gd_scene load_steps=7 format=3 uid="uid://b48efegko8grj"]
+
+[ext_resource type="Texture2D" uid="uid://be5nvh1ijpp11" path="res://assets/sprites/battle_city_extras.png" id="1_4is6l"]
+[ext_resource type="Script" path="res://scripts/effects/ExplosionEffect.cs" id="2_8rbsw"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fektg"]
+atlas = ExtResource("1_4is6l")
+region = Rect2(0, 32, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6404f"]
+atlas = ExtResource("1_4is6l")
+region = Rect2(16, 32, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_o52wa"]
+atlas = ExtResource("1_4is6l")
+region = Rect2(32, 32, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_7pfpk"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fektg")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6404f")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_o52wa")
+}],
+"loop": false,
+"name": &"default",
+"speed": 20.0
+}]
+
+[node name="ExplosionEffectAnimatedSprite2D" type="AnimatedSprite2D"]
+sprite_frames = SubResource("SpriteFrames_7pfpk")
+autoplay = "default"
+frame = 2
+frame_progress = 1.0
+script = ExtResource("2_8rbsw")
+
+[connection signal="animation_finished" from="." to="." method="OnAnimationFinished"]
