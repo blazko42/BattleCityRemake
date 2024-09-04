@@ -1,8 +1,9 @@
-[gd_scene load_steps=5 format=3 uid="uid://burn324nhg6bt"]
+[gd_scene load_steps=6 format=3 uid="uid://burn324nhg6bt"]
 
 [ext_resource type="Script" path="res://scripts/projectiles/ShellProjectile.cs" id="1_ymslp"]
 [ext_resource type="PackedScene" uid="uid://b48efegko8grj" path="res://scenes/effects/explosion_effect.tscn" id="2_3dvq8"]
 [ext_resource type="Texture2D" uid="uid://be5nvh1ijpp11" path="res://assets/sprites/battle_city_extras.png" id="2_e61de"]
+[ext_resource type="PackedScene" uid="uid://c4sxmqiui0mtr" path="res://scenes/effects/destruction_effect.tscn" id="3_vqiyq"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_p582q"]
 size = Vector2(4.15813, 4.12216)
@@ -10,6 +11,7 @@ size = Vector2(4.15813, 4.12216)
 [node name="ShellProjectileCollisionArea2D" type="Area2D"]
 script = ExtResource("1_ymslp")
 ExplosionEffect = ExtResource("2_3dvq8")
+DestructionEffect = ExtResource("3_vqiyq")
 
 [node name="ShellProjectileSprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("2_e61de")

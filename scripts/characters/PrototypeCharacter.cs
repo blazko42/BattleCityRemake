@@ -248,12 +248,12 @@ public partial class PrototypeCharacter : CharacterBody2D
 		_characterCanMove = true;
 		_characterCanShoot = true;
 
-		EnableInvulnerabilityEffect();
+		MakeInvulnerable();
 	}
 	#endregion
 
 	#region Character invulnerability effect
-	public void EnableInvulnerabilityEffect()
+	public void MakeInvulnerable()
 	{
 		InvulnerabilityEffect invulnerabilityEffect = (InvulnerabilityEffect)InvulnerabilityEffect.Instantiate();
 

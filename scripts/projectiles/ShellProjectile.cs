@@ -18,6 +18,11 @@ public partial class ShellProjectile : Area2D
     public PackedScene ExplosionEffect;
     #endregion
 
+    #region Destruction effect
+    [Export]
+    public PackedScene DestructionEffect;
+    #endregion
+
     #endregion
 
     #region  Methods
@@ -44,20 +49,37 @@ public partial class ShellProjectile : Area2D
     #region Signals
     public void OnShellProjectileBodyEntered(Node2D body)
     {
-        EnableExplosionEffect();
+        if (body is TileMapLayer)
+        {
+            TileMapLayer tileMapLayer = (TileMapLayer)body;
+            GD.Print(tileMapLayer);
+        }
+
+        Explode();
 
         CallDeferred(Node2D.MethodName.QueueFree);
     }
     #endregion
 
     #region Explosion effect
-    public void EnableExplosionEffect()
+    public void Explode()
     {
         ExplosionEffect explosionEffect = (ExplosionEffect)ExplosionEffect.Instantiate();
 
         explosionEffect.Position = GlobalPosition;
 
         _shellProjectileParentNode.CallDeferred(Node2D.MethodName.AddChild, explosionEffect);
+    }
+    #endregion
+
+    #region Destruction effect
+    public void Destroy()
+    {
+        DestructionEffect destructionEffect = (DestructionEffect)DestructionEffect.Instantiate();
+
+        destructionEffect.Position = GlobalPosition;
+
+        _shellProjectileParentNode.CallDeferred(Node2D.MethodName.AddChild, destructionEffect);
     }
     #endregion
 

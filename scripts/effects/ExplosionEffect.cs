@@ -3,7 +3,7 @@ using Godot;
 public partial class ExplosionEffect : AnimatedSprite2D
 {
 	#region  Methods
-	
+
 	#region Signals
 	public void OnAnimationFinished()
 	{
