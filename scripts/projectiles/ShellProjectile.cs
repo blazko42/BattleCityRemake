@@ -49,10 +49,18 @@ public partial class ShellProjectile : Area2D
     #region Signals
     public void OnShellProjectileBodyEntered(Node2D body)
     {
-        if (body is TileMapLayer)
+        if (body is TileMapLayer && body.Name == "LevelAssets")
         {
             TileMapLayer tileMapLayer = (TileMapLayer)body;
-            GD.Print(tileMapLayer);
+
+            Vector2 localPosition = tileMapLayer.ToLocal(GlobalPosition);
+
+            Vector2I tilePosition = tileMapLayer.LocalToMap(localPosition);
+
+            if (tileMapLayer.GetCellSourceId(tilePosition) != -1)
+            {
+                tileMapLayer.SetCell(tilePosition, -1);
+            }
         }
 
         Explode();

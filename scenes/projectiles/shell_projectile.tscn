@@ -6,7 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://c4sxmqiui0mtr" path="res://scenes/effects/destruction_effect.tscn" id="3_vqiyq"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_p582q"]
-size = Vector2(4.15813, 4.12216)
+size = Vector2(0.125, 0.368158)
 
 [node name="ShellProjectileCollisionArea2D" type="Area2D"]
 script = ExtResource("1_ymslp")
@@ -19,7 +19,7 @@ region_enabled = true
 region_rect = Rect2(67, 6, 3, 3.99488)
 
 [node name="ShellProjectileCollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(-0.00737381, 0)
+position = Vector2(0, 0.113767)
 shape = SubResource("RectangleShape2D_p582q")
 
 [connection signal="body_entered" from="." to="." method="OnShellProjectileBodyEntered"]
