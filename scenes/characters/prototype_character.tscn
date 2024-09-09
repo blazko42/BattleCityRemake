@@ -134,7 +134,7 @@ animations = [{
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_gudux"]
-size = Vector2(13.0244, 13.0225)
+size = Vector2(14.8084, 13.5854)
 
 [sub_resource type="Animation" id="Animation_ey5ci"]
 resource_name = "idle_down"
@@ -544,6 +544,7 @@ transitions = ["idle", "move", SubResource("AnimationNodeStateMachineTransition_
 graph_offset = Vector2(-38, -118)
 
 [node name="PrototypeCharacterCharacterBody2D" type="CharacterBody2D"]
+collision_mask = 63
 script = ExtResource("1_41qwj")
 Projectile = ExtResource("2_v7od4")
 SpawnEffect = ExtResource("3_7egkq")
@@ -556,7 +557,6 @@ animation = &"idle_up"
 autoplay = "idle_up"
 
 [node name="PrototypeCharacterCollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0.00341344, -0.00209761)
 shape = SubResource("RectangleShape2D_gudux")
 
 [node name="PrototypeCharacterAnimationPlayer" type="AnimationPlayer" parent="."]
@@ -574,4 +574,4 @@ parameters/idle/blend_position = Vector2(-0.000648081, -0.0709382)
 parameters/move/blend_position = Vector2(0, 0)
 
 [node name="PrototypeCharacterMarker2D" type="Marker2D" parent="."]
-position = Vector2(0, -9)
+position = Vector2(0, -7)

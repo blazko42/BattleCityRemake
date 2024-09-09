@@ -9,6 +9,8 @@
 size = Vector2(0.125, 0.368158)
 
 [node name="ShellProjectileCollisionArea2D" type="Area2D"]
+collision_layer = 4
+collision_mask = 15
 script = ExtResource("1_ymslp")
 ExplosionEffect = ExtResource("2_3dvq8")
 DestructionEffect = ExtResource("3_vqiyq")

@@ -13,7 +13,7 @@ config_version=5
 config/name="BattleCityRemake"
 config/description="Remake of the popular NES game \"Battle City\""
 config/version="0.1"
-run/main_scene="res://scenes/levels/prototye_level.tscn"
+run/main_scene="res://scenes/levels/prototye_level_v2.tscn"
 config/features=PackedStringArray("4.3", "C#", "Mobile")
 boot_splash/image="res://assets/icons/battle_city_remake_icon.png"
 config/icon="res://assets/icons/battle_city_remake_icon.png"
@@ -53,6 +53,15 @@ shoot={
 "events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":32,"key_label":0,"unicode":32,"location":0,"echo":false,"script":null)
 ]
 }
+
+[layer_names]
+
+2d_physics/layer_1="players"
+2d_physics/layer_2="enemies"
+2d_physics/layer_3="projectiles"
+2d_physics/layer_4="walls"
+2d_physics/layer_5="water"
+2d_physics/layer_6="ice"
 
 [rendering]
 
