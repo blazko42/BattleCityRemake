@@ -1,0 +1,19 @@
+[gd_scene load_steps=3 format=3 uid="uid://cjpdwqbdodmu5"]
+
+[ext_resource type="Texture2D" uid="uid://ca3dufy8ko3da" path="res://assets/sprites/battle_city_tiles.png" id="1_x1ela"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_jr8hj"]
+size = Vector2(16, 14)
+
+[node name="BaseArea2D" type="Area2D"]
+collision_layer = 64
+collision_mask = 7
+metadata/_edit_group_ = true
+
+[node name="BaseSprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_x1ela")
+region_enabled = true
+region_rect = Rect2(48, 33, 16, 14)
+
+[node name="BaseCollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_jr8hj")

@@ -38,5 +38,6 @@ autoplay = "default"
 frame = 2
 frame_progress = 1.0
 script = ExtResource("2_8rbsw")
+metadata/_edit_group_ = true
 
 [connection signal="animation_finished" from="." to="." method="OnAnimationFinished"]

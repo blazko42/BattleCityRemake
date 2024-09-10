@@ -45,6 +45,7 @@ sprite_frames = SubResource("SpriteFrames_mp8io")
 frame = 3
 frame_progress = 1.0
 script = ExtResource("2_4e0lx")
+metadata/_edit_group_ = true
 
 [node name="SpawnEffectDelayTimer" type="Timer" parent="."]
 process_callback = 0

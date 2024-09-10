@@ -544,7 +544,7 @@ transitions = ["idle", "move", SubResource("AnimationNodeStateMachineTransition_
 graph_offset = Vector2(-38, -118)
 
 [node name="PrototypeCharacterCharacterBody2D" type="CharacterBody2D"]
-collision_mask = 63
+collision_mask = 127
 script = ExtResource("1_41qwj")
 Projectile = ExtResource("2_v7od4")
 SpawnEffect = ExtResource("3_7egkq")

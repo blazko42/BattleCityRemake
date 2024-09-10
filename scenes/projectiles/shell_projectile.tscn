@@ -8,12 +8,13 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_p582q"]
 size = Vector2(0.125, 0.368158)
 
-[node name="ShellProjectileCollisionArea2D" type="Area2D"]
+[node name="ShellProjectileArea2D" type="Area2D"]
 collision_layer = 4
-collision_mask = 15
+collision_mask = 79
 script = ExtResource("1_ymslp")
 ExplosionEffect = ExtResource("2_3dvq8")
 DestructionEffect = ExtResource("3_vqiyq")
+metadata/_edit_group_ = true
 
 [node name="ShellProjectileSprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("2_e61de")
