@@ -92,63 +92,102 @@ public partial class ShellProjectile : Area2D
 
         if (tileMapLayer.GetCellSourceId(tilePosition) != -1)
         {
-            Vector2I leftFirstNeighborCell = tileMapLayer.GetNeighborCell(tilePosition, TileSet.CellNeighbor.LeftSide);
-            int leftFirstNeighborCellSourceId = tileMapLayer.GetCellSourceId(leftFirstNeighborCell);
-
-            Vector2I leftSecondNeighborCell = tileMapLayer.GetNeighborCell(leftFirstNeighborCell, TileSet.CellNeighbor.LeftSide);
-            int leftSecondNeighborCellSourceId = tileMapLayer.GetCellSourceId(leftSecondNeighborCell);
-
-            Vector2I rightFirstNeighborCell = tileMapLayer.GetNeighborCell(tilePosition, TileSet.CellNeighbor.RightSide);
-            int rightFirstNeighborCellSourceId = tileMapLayer.GetCellSourceId(rightFirstNeighborCell);
-
-            // Vector2I rightSecondNeighborCell = tileMapLayer.GetNeighborCell(rightFirstNeighborCell, TileSet.CellNeighbor.RightSide);
-            // int rightSecondNeighborCellSourceId = tileMapLayer.GetCellSourceId(rightSecondNeighborCell);
-
-            var side = leftFirstNeighborCellSourceId == -1 || leftSecondNeighborCellSourceId == -1 ? "left" :
-            rightFirstNeighborCellSourceId == -1 //|| rightSecondNeighborCellSourceId == -1 
-            ? "right" :
-            "middle";
-
-            if (side == "middle")
+            if (ShellProjectileDirection == Vector2.Up || ShellProjectileDirection == Vector2.Down)
             {
-                tileMapLayer.SetCell(leftSecondNeighborCell, -1);
-                tileMapLayer.SetCell(leftFirstNeighborCell, -1);
-                tileMapLayer.SetCell(tilePosition, -1);
-                tileMapLayer.SetCell(rightFirstNeighborCell, -1);
-                // tileMapLayer.SetCell(rightSecondNeighborCell, -1);
-            }
-            if (side == "left")
-            {
-                if (leftFirstNeighborCellSourceId == -1)
-                {
-                    tileMapLayer.SetCell(tilePosition, -1);
-                    tileMapLayer.SetCell(rightFirstNeighborCell, -1);
-                }
-                if (leftSecondNeighborCellSourceId == -1)
+                Vector2I leftFirstNeighborCell = tileMapLayer.GetNeighborCell(tilePosition, TileSet.CellNeighbor.LeftSide);
+                int leftFirstNeighborCellSourceId = tileMapLayer.GetCellSourceId(leftFirstNeighborCell);
+
+                Vector2I leftSecondNeighborCell = tileMapLayer.GetNeighborCell(leftFirstNeighborCell, TileSet.CellNeighbor.LeftSide);
+                int leftSecondNeighborCellSourceId = tileMapLayer.GetCellSourceId(leftSecondNeighborCell);
+
+                Vector2I rightFirstNeighborCell = tileMapLayer.GetNeighborCell(tilePosition, TileSet.CellNeighbor.RightSide);
+                int rightFirstNeighborCellSourceId = tileMapLayer.GetCellSourceId(rightFirstNeighborCell);
+
+                var side = leftFirstNeighborCellSourceId == -1 || leftSecondNeighborCellSourceId == -1 ? "left" :
+                rightFirstNeighborCellSourceId == -1
+                ? "right" :
+                "middle";
+
+                if (side == "middle")
                 {
                     tileMapLayer.SetCell(leftSecondNeighborCell, -1);
                     tileMapLayer.SetCell(leftFirstNeighborCell, -1);
                     tileMapLayer.SetCell(tilePosition, -1);
                     tileMapLayer.SetCell(rightFirstNeighborCell, -1);
-                    // tileMapLayer.SetCell(rightSecondNeighborCell, -1);
                 }
-            }
-            if (side == "right")
-            {
-                if (rightFirstNeighborCellSourceId == -1)
+                if (side == "left")
                 {
-                    tileMapLayer.SetCell(tilePosition, -1);
-                    tileMapLayer.SetCell(leftFirstNeighborCell, -1);
+                    if (leftFirstNeighborCellSourceId == -1)
+                    {
+                        tileMapLayer.SetCell(tilePosition, -1);
+                        tileMapLayer.SetCell(rightFirstNeighborCell, -1);
+                    }
+                    if (leftSecondNeighborCellSourceId == -1)
+                    {
+                        tileMapLayer.SetCell(leftSecondNeighborCell, -1);
+                        tileMapLayer.SetCell(leftFirstNeighborCell, -1);
+                        tileMapLayer.SetCell(tilePosition, -1);
+                        tileMapLayer.SetCell(rightFirstNeighborCell, -1);
+                    }
                 }
-                // if (rightSecondNeighborCellSourceId == -1)
-                // {
-                //     tileMapLayer.SetCell(leftSecondNeighborCell, -1);
-                //     tileMapLayer.SetCell(leftFirstNeighborCell, -1);
-                //     tileMapLayer.SetCell(tilePosition, -1);
-                //     tileMapLayer.SetCell(rightFirstNeighborCell, -1);
-                //     tileMapLayer.SetCell(rightSecondNeighborCell, -1);
-                // }
+                if (side == "right")
+                {
+                    if (rightFirstNeighborCellSourceId == -1)
+                    {
+                        tileMapLayer.SetCell(tilePosition, -1);
+                        tileMapLayer.SetCell(leftFirstNeighborCell, -1);
+                    }
+                }
             }
+
+            if (ShellProjectileDirection == Vector2.Left || ShellProjectileDirection == Vector2.Right)
+            {
+                Vector2I topFirstNeighborCell = tileMapLayer.GetNeighborCell(tilePosition, TileSet.CellNeighbor.TopSide);
+                int topFirstNeighborCellSourceId = tileMapLayer.GetCellSourceId(topFirstNeighborCell);
+
+                Vector2I topSecondNeighborCell = tileMapLayer.GetNeighborCell(topFirstNeighborCell, TileSet.CellNeighbor.TopSide);
+                int topSecondNeighborCellSourceId = tileMapLayer.GetCellSourceId(topSecondNeighborCell);
+
+                Vector2I bottomFirstNeighborCell = tileMapLayer.GetNeighborCell(tilePosition, TileSet.CellNeighbor.BottomSide);
+                int bottomFirstNeighborCellSourceId = tileMapLayer.GetCellSourceId(bottomFirstNeighborCell);
+
+                var side = topFirstNeighborCellSourceId == -1 || topSecondNeighborCellSourceId == -1 ? "left" :
+                bottomFirstNeighborCellSourceId == -1
+                ? "right" :
+                "middle";
+
+                if (side == "middle")
+                {
+                    tileMapLayer.SetCell(topSecondNeighborCell, -1);
+                    tileMapLayer.SetCell(topFirstNeighborCell, -1);
+                    tileMapLayer.SetCell(tilePosition, -1);
+                    tileMapLayer.SetCell(bottomFirstNeighborCell, -1);
+                }
+                if (side == "left")
+                {
+                    if (topFirstNeighborCellSourceId == -1)
+                    {
+                        tileMapLayer.SetCell(tilePosition, -1);
+                        tileMapLayer.SetCell(bottomFirstNeighborCell, -1);
+                    }
+                    if (topSecondNeighborCellSourceId == -1)
+                    {
+                        tileMapLayer.SetCell(topSecondNeighborCell, -1);
+                        tileMapLayer.SetCell(topFirstNeighborCell, -1);
+                        tileMapLayer.SetCell(tilePosition, -1);
+                        tileMapLayer.SetCell(bottomFirstNeighborCell, -1);
+                    }
+                }
+                if (side == "right")
+                {
+                    if (bottomFirstNeighborCellSourceId == -1)
+                    {
+                        tileMapLayer.SetCell(tilePosition, -1);
+                        tileMapLayer.SetCell(topFirstNeighborCell, -1);
+                    }
+                }
+            }
+
         }
     }
     #endregion

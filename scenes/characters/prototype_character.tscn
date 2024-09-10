@@ -134,7 +134,7 @@ animations = [{
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_gudux"]
-size = Vector2(14.8084, 13.5854)
+size = Vector2(13.2958, 15.7033)
 
 [sub_resource type="Animation" id="Animation_ey5ci"]
 resource_name = "idle_down"
@@ -557,6 +557,7 @@ animation = &"idle_up"
 autoplay = "idle_up"
 
 [node name="PrototypeCharacterCollisionShape2D" type="CollisionShape2D" parent="."]
+rotation = -3.14159
 shape = SubResource("RectangleShape2D_gudux")
 
 [node name="PrototypeCharacterAnimationPlayer" type="AnimationPlayer" parent="."]
@@ -574,4 +575,4 @@ parameters/idle/blend_position = Vector2(-0.000648081, -0.0709382)
 parameters/move/blend_position = Vector2(0, 0)
 
 [node name="PrototypeCharacterMarker2D" type="Marker2D" parent="."]
-position = Vector2(0, -7)
+position = Vector2(0, -8)
