@@ -4,7 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://6m7h4412dk5r" path="res://assets/sprites/battle_city_edge_tiles.png" id="2_06b6g"]
 [ext_resource type="Texture2D" uid="uid://ca3dufy8ko3da" path="res://assets/sprites/battle_city_tiles.png" id="3_xvevh"]
 [ext_resource type="PackedScene" uid="uid://d2ar8dmff37en" path="res://scenes/characters/prototype_character.tscn" id="4_kay12"]
-[ext_resource type="PackedScene" uid="uid://cjpdwqbdodmu5" path="res://scenes/others/base.tscn" id="5_w1lsm"]
+[ext_resource type="PackedScene" uid="uid://cjpdwqbdodmu5" path="res://scenes/others/friendly_base.tscn" id="5_w1lsm"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_2017e"]
 texture = ExtResource("2_06b6g")

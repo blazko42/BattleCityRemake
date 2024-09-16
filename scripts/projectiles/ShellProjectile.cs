@@ -58,17 +58,15 @@ public partial class ShellProjectile : Area2D
             DestroyEnvironment((TileMapLayer)body);
         }
 
-        if (body is CollisionShape2D && body.Name == "PrototypeBase")
+        if (body is StaticBody2D && body.Name == "PrototypeBase")
         {
-            body.QueueFree();
-            Destroy();
+            DestroyBase((FriendlyBase)body);
         }
 
         CallDeferred(Node2D.MethodName.QueueFree);
     }
 
     #endregion
-
 
     #region Explosion effect
     public void Explode()
@@ -103,7 +101,7 @@ public partial class ShellProjectile : Area2D
         }
     }
 
-    //REFACTOR  
+    //TODO: REFACTOR  
     private void HandleEnvironmentDestruction(TileMapLayer tileMapLayer, Vector2I tilePosition)
     {
         if (ShellProjectileDirection == Vector2.Up || ShellProjectileDirection == Vector2.Down)
@@ -201,6 +199,12 @@ public partial class ShellProjectile : Area2D
                 }
             }
         }
+    }
+
+    private void DestroyBase(FriendlyBase body)
+    {
+        body.Destroy();
+        Destroy();
     }
     #endregion
 
