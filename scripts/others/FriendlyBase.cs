@@ -4,7 +4,7 @@ public partial class FriendlyBase : StaticBody2D
 {
 	#region Properties
 
-	#region Generic
+	#region FriendlyBase
 	private Sprite2D _friendlyBaseSprite2D;
 
 	private Rect2 _friendlyBaseAliveRegionRect = new Rect2(48, 33, 16, 14);
@@ -41,10 +41,6 @@ public partial class FriendlyBase : StaticBody2D
 			_friendlyBaseSprite2D.RegionRect = _friendlyBaseDestroyedRegionRect;
 		}
 	}
-	#endregion
-
-	#region Signals
-
 	#endregion
 
 	#endregion

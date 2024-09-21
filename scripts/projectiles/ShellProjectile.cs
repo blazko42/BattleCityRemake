@@ -1,5 +1,3 @@
-using System.Diagnostics;
-using System.Runtime.Serialization.Formatters;
 using Godot;
 
 public partial class ShellProjectile : Area2D
@@ -13,6 +11,7 @@ public partial class ShellProjectile : Area2D
     public Vector2 ShellProjectileDirection = Vector2.Zero;
 
     private Node _shellProjectileParentNode;
+    private int _emptyCellId = -1;
     #endregion
 
     #region Explosion effect
@@ -95,61 +94,18 @@ public partial class ShellProjectile : Area2D
     {
         Vector2I tilePosition = tileMapLayer.LocalToMap(GlobalPosition);
 
-        if (tileMapLayer.GetCellSourceId(tilePosition) != -1)
+        if (tileMapLayer.GetCellSourceId(tilePosition) != _emptyCellId)
         {
             HandleEnvironmentDestruction(tileMapLayer, tilePosition);
         }
     }
 
-    //TODO: REFACTOR  
     private void HandleEnvironmentDestruction(TileMapLayer tileMapLayer, Vector2I tilePosition)
     {
+
         if (ShellProjectileDirection == Vector2.Up || ShellProjectileDirection == Vector2.Down)
         {
-            Vector2I leftFirstNeighborCell = tileMapLayer.GetNeighborCell(tilePosition, TileSet.CellNeighbor.LeftSide);
-            int leftFirstNeighborCellSourceId = tileMapLayer.GetCellSourceId(leftFirstNeighborCell);
-
-            Vector2I leftSecondNeighborCell = tileMapLayer.GetNeighborCell(leftFirstNeighborCell, TileSet.CellNeighbor.LeftSide);
-            int leftSecondNeighborCellSourceId = tileMapLayer.GetCellSourceId(leftSecondNeighborCell);
-
-            Vector2I rightFirstNeighborCell = tileMapLayer.GetNeighborCell(tilePosition, TileSet.CellNeighbor.RightSide);
-            int rightFirstNeighborCellSourceId = tileMapLayer.GetCellSourceId(rightFirstNeighborCell);
-
-            var side = leftFirstNeighborCellSourceId == -1 || leftSecondNeighborCellSourceId == -1 ? "left" :
-            rightFirstNeighborCellSourceId == -1
-            ? "right" :
-            "middle";
-
-            if (side == "middle")
-            {
-                tileMapLayer.SetCell(leftSecondNeighborCell, -1);
-                tileMapLayer.SetCell(leftFirstNeighborCell, -1);
-                tileMapLayer.SetCell(tilePosition, -1);
-                tileMapLayer.SetCell(rightFirstNeighborCell, -1);
-            }
-            if (side == "left")
-            {
-                if (leftFirstNeighborCellSourceId == -1)
-                {
-                    tileMapLayer.SetCell(tilePosition, -1);
-                    tileMapLayer.SetCell(rightFirstNeighborCell, -1);
-                }
-                if (leftSecondNeighborCellSourceId == -1)
-                {
-                    tileMapLayer.SetCell(leftSecondNeighborCell, -1);
-                    tileMapLayer.SetCell(leftFirstNeighborCell, -1);
-                    tileMapLayer.SetCell(tilePosition, -1);
-                    tileMapLayer.SetCell(rightFirstNeighborCell, -1);
-                }
-            }
-            if (side == "right")
-            {
-                if (rightFirstNeighborCellSourceId == -1)
-                {
-                    tileMapLayer.SetCell(tilePosition, -1);
-                    tileMapLayer.SetCell(leftFirstNeighborCell, -1);
-                }
-            }
+            NewMethod(tileMapLayer, tilePosition);
         }
 
         if (ShellProjectileDirection == Vector2.Left || ShellProjectileDirection == Vector2.Right)
@@ -163,43 +119,96 @@ public partial class ShellProjectile : Area2D
             Vector2I bottomFirstNeighborCell = tileMapLayer.GetNeighborCell(tilePosition, TileSet.CellNeighbor.BottomSide);
             int bottomFirstNeighborCellSourceId = tileMapLayer.GetCellSourceId(bottomFirstNeighborCell);
 
-            var side = topFirstNeighborCellSourceId == -1 || topSecondNeighborCellSourceId == -1 ? "left" :
-            bottomFirstNeighborCellSourceId == -1
-            ? "right" :
-            "middle";
+            ProjectileImpactSide projectileImpactSide = topFirstNeighborCellSourceId == _emptyCellId || topSecondNeighborCellSourceId == _emptyCellId ? ProjectileImpactSide.Left :
+                bottomFirstNeighborCellSourceId == _emptyCellId ? ProjectileImpactSide.Right :
+                ProjectileImpactSide.Middle;
 
-            if (side == "middle")
+            if (projectileImpactSide == ProjectileImpactSide.Middle)
             {
-                tileMapLayer.SetCell(topSecondNeighborCell, -1);
-                tileMapLayer.SetCell(topFirstNeighborCell, -1);
-                tileMapLayer.SetCell(tilePosition, -1);
-                tileMapLayer.SetCell(bottomFirstNeighborCell, -1);
+                tileMapLayer.SetCell(topSecondNeighborCell, _emptyCellId);
+                tileMapLayer.SetCell(topFirstNeighborCell, _emptyCellId);
+                tileMapLayer.SetCell(tilePosition, _emptyCellId);
+                tileMapLayer.SetCell(bottomFirstNeighborCell, _emptyCellId);
             }
-            if (side == "left")
+
+            if (projectileImpactSide == ProjectileImpactSide.Left)
             {
-                if (topFirstNeighborCellSourceId == -1)
+                if (topFirstNeighborCellSourceId == _emptyCellId)
                 {
-                    tileMapLayer.SetCell(tilePosition, -1);
-                    tileMapLayer.SetCell(bottomFirstNeighborCell, -1);
+                    tileMapLayer.SetCell(tilePosition, _emptyCellId);
+                    tileMapLayer.SetCell(bottomFirstNeighborCell, _emptyCellId);
                 }
-                if (topSecondNeighborCellSourceId == -1)
+
+                if (topSecondNeighborCellSourceId == _emptyCellId)
                 {
-                    tileMapLayer.SetCell(topSecondNeighborCell, -1);
-                    tileMapLayer.SetCell(topFirstNeighborCell, -1);
-                    tileMapLayer.SetCell(tilePosition, -1);
-                    tileMapLayer.SetCell(bottomFirstNeighborCell, -1);
+                    tileMapLayer.SetCell(topSecondNeighborCell, _emptyCellId);
+                    tileMapLayer.SetCell(topFirstNeighborCell, _emptyCellId);
+                    tileMapLayer.SetCell(tilePosition, _emptyCellId);
+                    tileMapLayer.SetCell(bottomFirstNeighborCell, _emptyCellId);
                 }
             }
-            if (side == "right")
+
+            if (projectileImpactSide == ProjectileImpactSide.Right)
             {
-                if (bottomFirstNeighborCellSourceId == -1)
+                if (bottomFirstNeighborCellSourceId == _emptyCellId)
                 {
-                    tileMapLayer.SetCell(tilePosition, -1);
-                    tileMapLayer.SetCell(topFirstNeighborCell, -1);
+                    tileMapLayer.SetCell(tilePosition, _emptyCellId);
+                    tileMapLayer.SetCell(topFirstNeighborCell, _emptyCellId);
                 }
             }
         }
     }
+
+    private void NewMethod(TileMapLayer tileMapLayer, Vector2I tilePosition)
+    {
+        Vector2I leftFirstNeighborCell = tileMapLayer.GetNeighborCell(tilePosition, TileSet.CellNeighbor.LeftSide);
+        int leftFirstNeighborCellSourceId = tileMapLayer.GetCellSourceId(leftFirstNeighborCell);
+
+        Vector2I leftSecondNeighborCell = tileMapLayer.GetNeighborCell(leftFirstNeighborCell, TileSet.CellNeighbor.LeftSide);
+        int leftSecondNeighborCellSourceId = tileMapLayer.GetCellSourceId(leftSecondNeighborCell);
+
+        Vector2I rightFirstNeighborCell = tileMapLayer.GetNeighborCell(tilePosition, TileSet.CellNeighbor.RightSide);
+        int rightFirstNeighborCellSourceId = tileMapLayer.GetCellSourceId(rightFirstNeighborCell);
+
+        ProjectileImpactSide projectileImpactSide = leftFirstNeighborCellSourceId == _emptyCellId || leftSecondNeighborCellSourceId == _emptyCellId ? ProjectileImpactSide.Left :
+            rightFirstNeighborCellSourceId == _emptyCellId ? ProjectileImpactSide.Right :
+            ProjectileImpactSide.Middle;
+
+        if (projectileImpactSide == ProjectileImpactSide.Middle)
+        {
+            tileMapLayer.SetCell(leftSecondNeighborCell, _emptyCellId);
+            tileMapLayer.SetCell(leftFirstNeighborCell, _emptyCellId);
+            tileMapLayer.SetCell(tilePosition, _emptyCellId);
+            tileMapLayer.SetCell(rightFirstNeighborCell, _emptyCellId);
+        }
+
+        if (projectileImpactSide == ProjectileImpactSide.Left)
+        {
+            if (leftFirstNeighborCellSourceId == _emptyCellId)
+            {
+                tileMapLayer.SetCell(tilePosition, _emptyCellId);
+                tileMapLayer.SetCell(rightFirstNeighborCell, _emptyCellId);
+            }
+
+            if (leftSecondNeighborCellSourceId == _emptyCellId)
+            {
+                tileMapLayer.SetCell(leftSecondNeighborCell, _emptyCellId);
+                tileMapLayer.SetCell(leftFirstNeighborCell, _emptyCellId);
+                tileMapLayer.SetCell(tilePosition, _emptyCellId);
+                tileMapLayer.SetCell(rightFirstNeighborCell, _emptyCellId);
+            }
+        }
+
+        if (projectileImpactSide == ProjectileImpactSide.Right)
+        {
+            if (rightFirstNeighborCellSourceId == _emptyCellId)
+            {
+                tileMapLayer.SetCell(tilePosition, _emptyCellId);
+                tileMapLayer.SetCell(leftFirstNeighborCell, _emptyCellId);
+            }
+        }
+    }
+
 
     private void DestroyBase(FriendlyBase body)
     {

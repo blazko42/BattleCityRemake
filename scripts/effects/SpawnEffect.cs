@@ -2,9 +2,6 @@ using Godot;
 
 public partial class SpawnEffect : AnimatedSprite2D
 {
-	#region  Methods
-
-	#region Signals
 	public void OnAnimationFinished()
 	{
 		CallDeferred(Node2D.MethodName.QueueFree);
@@ -15,7 +12,4 @@ public partial class SpawnEffect : AnimatedSprite2D
 		Visible = true;
 		Play("default");
 	}
-	#endregion
-
-	#endregion
 }
