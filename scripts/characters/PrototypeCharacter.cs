@@ -28,7 +28,7 @@ public partial class PrototypeCharacter : CharacterBody2D
 	public PackedScene Projectile;
 	#endregion
 
-	#region  Effects
+	#region Visual effects
 
 	#region Spawn effect
 	[Export]
@@ -42,6 +42,12 @@ public partial class PrototypeCharacter : CharacterBody2D
 
 	#endregion
 
+	#region Sound effects
+	private AudioStreamPlayer2D _idleSFXAudioStreamPlayer2D;
+	private AudioStreamPlayer2D _moveSFXAudioStreamPlayer2D;
+	private AudioStreamPlayer2D _fireSFXAudioStreamPlayer2D;
+	#endregion
+
 	#endregion
 
 	#region  Methods
@@ -50,7 +56,7 @@ public partial class PrototypeCharacter : CharacterBody2D
 	public override void _Ready()
 	{
 		ReadySceneNodes();
-		SpawnCharacter();
+		SpawnCharacterEffect();
 	}
 
 	public override void _Process(double delta)
@@ -89,6 +95,11 @@ public partial class PrototypeCharacter : CharacterBody2D
 		_characterAnimationTree.Active = true;
 
 		_characterMarker = GetNode<Marker2D>("PrototypeCharacterMarker2D");
+
+		_idleSFXAudioStreamPlayer2D = GetNode<AudioStreamPlayer2D>("PrototypeCharacterSFX/IdleSFXAudioStreamPlayer2D");
+		_moveSFXAudioStreamPlayer2D = GetNode<AudioStreamPlayer2D>("PrototypeCharacterSFX/MoveSFXAudioStreamPlayer2D");
+		_fireSFXAudioStreamPlayer2D = GetNode<AudioStreamPlayer2D>("PrototypeCharacterSFX/FireSFXAudioStreamPlayer2D");
+
 	}
 	#endregion
 
@@ -100,6 +111,34 @@ public partial class PrototypeCharacter : CharacterBody2D
 		UpdateCharacterDirection();
 
 		UpdateCharacterAnimationTreeParameters();
+	}
+
+	private void MovementSoundEffect(bool isMoving)
+	{
+		if (isMoving)
+		{
+			if (_idleSFXAudioStreamPlayer2D.Playing)
+			{
+				_idleSFXAudioStreamPlayer2D.Stop();
+			}
+
+			if (!_moveSFXAudioStreamPlayer2D.Playing)
+			{
+				_moveSFXAudioStreamPlayer2D.Play();
+			}
+		}
+		else
+		{
+			if (!_idleSFXAudioStreamPlayer2D.Playing)
+			{
+				_idleSFXAudioStreamPlayer2D.Play();
+			}
+
+			if (_moveSFXAudioStreamPlayer2D.Playing)
+			{
+				_moveSFXAudioStreamPlayer2D.Stop();
+			}
+		}
 	}
 
 	private void UpdateInputBuffer()
@@ -178,11 +217,15 @@ public partial class PrototypeCharacter : CharacterBody2D
 		{
 			_characterAnimationTree.Set("parameters/conditions/is_idle", false);
 			_characterAnimationTree.Set("parameters/conditions/is_moving", true);
+
+			MovementSoundEffect(true);
 		}
 		else
 		{
 			_characterAnimationTree.Set("parameters/conditions/is_idle", true);
 			_characterAnimationTree.Set("parameters/conditions/is_moving", false);
+
+			MovementSoundEffect(false);
 		}
 
 		if (_characterDirection != Vector2.Zero)
@@ -219,6 +262,8 @@ public partial class PrototypeCharacter : CharacterBody2D
 	{
 		_characterCanShoot = false;
 
+		_fireSFXAudioStreamPlayer2D.Play();
+
 		ShellProjectile shellProjectile = (ShellProjectile)Projectile.Instantiate();
 
 		shellProjectile.GlobalPosition = _characterMarker.GlobalPosition;
@@ -234,7 +279,7 @@ public partial class PrototypeCharacter : CharacterBody2D
 	#endregion
 
 	#region Character spawning effect
-	public async void SpawnCharacter()
+	public async void SpawnCharacterEffect()
 	{
 		SpawnEffect spawnEffect = (SpawnEffect)SpawnEffect.Instantiate();
 
@@ -248,12 +293,12 @@ public partial class PrototypeCharacter : CharacterBody2D
 		_characterCanMove = true;
 		_characterCanShoot = true;
 
-		MakeInvulnerable();
+		MakeInvulnerableEffect();
 	}
 	#endregion
 
 	#region Character invulnerability effect
-	public void MakeInvulnerable()
+	public void MakeInvulnerableEffect()
 	{
 		InvulnerabilityEffect invulnerabilityEffect = (InvulnerabilityEffect)InvulnerabilityEffect.Instantiate();
 

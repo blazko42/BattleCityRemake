@@ -17,14 +17,19 @@ public partial class ShellProjectile : Area2D
 
     #endregion
 
+    #region Visual effects
+
     #region Explosion effect
     [Export]
     public PackedScene ExplosionEffect;
     #endregion
 
-    #region Destruction effect
-    [Export]
-    public PackedScene DestructionEffect;
+    #endregion
+
+    #region Sound effects
+    private AudioStreamPlayer2D _collideWithArmoredTankSFXAudioStreamPlayer2D;
+    private AudioStreamPlayer2D _collideWithBrickWallSFXAudioStreamPlayer2D;
+    private AudioStreamPlayer2D _collideWithWallSFXAudioStreamPlayer2D;
     #endregion
 
     #endregion
@@ -47,15 +52,19 @@ public partial class ShellProjectile : Area2D
     private void ReadySceneNodes()
     {
         _shellProjectileParentNode = GetParent<Node>();
+
+        _collideWithArmoredTankSFXAudioStreamPlayer2D = GetNode<AudioStreamPlayer2D>("ShellProjectileSFX/CollideWithArmoredTankSFXAudioStreamPlayer2D");
+        _collideWithBrickWallSFXAudioStreamPlayer2D = GetNode<AudioStreamPlayer2D>("ShellProjectileSFX/CollideWithBrickWallSFXAudioStreamPlayer2D");
+        _collideWithWallSFXAudioStreamPlayer2D = GetNode<AudioStreamPlayer2D>("ShellProjectileSFX/CollideWithWallSFXAudioStreamPlayer2D");
     }
     #endregion
 
     #region Signals
     public void OnShellProjectileBodyEntered(Node2D body)
     {
-        Explode();
+        ExplodeEffect();
 
-        if (body is TileMapLayer && body.Name == "LevelAssets")
+        if (body is TileMapLayer && body.Name == "PrototypeLevelAssetsTileMapLayer")
         {
             DestroyEnvironment((TileMapLayer)body);
         }
@@ -71,7 +80,7 @@ public partial class ShellProjectile : Area2D
     #endregion
 
     #region Explosion effect
-    public void Explode()
+    public void ExplodeEffect()
     {
         ExplosionEffect explosionEffect = (ExplosionEffect)ExplosionEffect.Instantiate();
 
@@ -81,21 +90,12 @@ public partial class ShellProjectile : Area2D
     }
     #endregion
 
-    #region Destruction effect
-    public void Destroy()
-    {
-        DestructionEffect destructionEffect = (DestructionEffect)DestructionEffect.Instantiate();
-
-        destructionEffect.Position = GlobalPosition;
-
-        _shellProjectileParentNode.CallDeferred(Node2D.MethodName.AddChild, destructionEffect);
-    }
-    #endregion
-
     #region Environment
     private void DestroyEnvironment(TileMapLayer tileMapLayer)
     {
         Vector2I initialImpactCell = tileMapLayer.LocalToMap(GlobalPosition);
+
+        //add here sound effect for walls
 
         if (tileMapLayer.GetCellSourceId(initialImpactCell) != _emptyCellId)
         {
@@ -167,9 +167,9 @@ public partial class ShellProjectile : Area2D
     private void DestroyBase(FriendlyBase body)
     {
         body.Destroy();
-        Destroy();
     }
     #endregion
+
 
     #endregion
 }

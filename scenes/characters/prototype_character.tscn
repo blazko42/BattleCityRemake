@@ -1,10 +1,13 @@
-[gd_scene load_steps=43 format=3 uid="uid://d2ar8dmff37en"]
+[gd_scene load_steps=46 format=3 uid="uid://d2ar8dmff37en"]
 
 [ext_resource type="Script" path="res://scripts/characters/PrototypeCharacter.cs" id="1_41qwj"]
 [ext_resource type="Texture2D" uid="uid://blqfo4yayyqqq" path="res://assets/sprites/main_player_sprite.png" id="2_lvtac"]
 [ext_resource type="PackedScene" uid="uid://burn324nhg6bt" path="res://scenes/projectiles/shell_projectile.tscn" id="2_v7od4"]
 [ext_resource type="PackedScene" uid="uid://4te7xds54kfa" path="res://scenes/effects/spawn_effect.tscn" id="3_7egkq"]
 [ext_resource type="PackedScene" uid="uid://cspc62p8040n" path="res://scenes/effects/invulnerability_effect.tscn" id="4_0lwvo"]
+[ext_resource type="AudioStream" uid="uid://cs2q5woqnlsv0" path="res://assets/sounds/player/tank_idle.wav" id="6_1s4e1"]
+[ext_resource type="AudioStream" uid="uid://2kople4v6do0" path="res://assets/sounds/player/tank_move.wav" id="7_ylwa0"]
+[ext_resource type="AudioStream" uid="uid://clj5bkvkte5jr" path="res://assets/sounds/player/tank_fire.wav" id="8_krc38"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ygq71"]
 atlas = ExtResource("2_lvtac")
@@ -576,3 +579,17 @@ parameters/move/blend_position = Vector2(0, 0)
 
 [node name="PrototypeCharacterMarker2D" type="Marker2D" parent="."]
 position = Vector2(0, -8)
+
+[node name="PrototypeCharacterSFX" type="Node" parent="."]
+
+[node name="IdleSFXAudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="PrototypeCharacterSFX"]
+stream = ExtResource("6_1s4e1")
+bus = &"MovementSFX"
+
+[node name="MoveSFXAudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="PrototypeCharacterSFX"]
+stream = ExtResource("7_ylwa0")
+bus = &"MovementSFX"
+
+[node name="FireSFXAudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="PrototypeCharacterSFX"]
+stream = ExtResource("8_krc38")
+bus = &"OtherSFX"

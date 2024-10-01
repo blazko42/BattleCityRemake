@@ -3,12 +3,12 @@
 importer="wav"
 type="AudioStreamWAV"
 uid="uid://b61ppxj5gs2p0"
-path="res://.godot/imported/base_lost.wav-c7ebdc6f7281e175f9deccfde7cfa66d.sample"
+path="res://.godot/imported/destroy.wav-3b615b865dd6d9dbd00236f8fda4e9e9.sample"
 
 [deps]
 
-source_file="res://assets/sounds/player/base_lost.wav"
-dest_files=["res://.godot/imported/base_lost.wav-c7ebdc6f7281e175f9deccfde7cfa66d.sample"]
+source_file="res://assets/sounds/player/destroy.wav"
+dest_files=["res://.godot/imported/destroy.wav-3b615b865dd6d9dbd00236f8fda4e9e9.sample"]
 
 [params]
 
@@ -16,7 +16,7 @@ force/8_bit=false
 force/mono=false
 force/max_rate=false
 force/max_rate_hz=44100
-edit/trim=false
+edit/trim=true
 edit/normalize=false
 edit/loop_mode=0
 edit/loop_begin=0
