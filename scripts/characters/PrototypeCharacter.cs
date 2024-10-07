@@ -42,12 +42,6 @@ public partial class PrototypeCharacter : CharacterBody2D
 
 	#endregion
 
-	#region Sound effects
-	private AudioStreamPlayer2D _idleSFXAudioStreamPlayer2D;
-	private AudioStreamPlayer2D _moveSFXAudioStreamPlayer2D;
-	private AudioStreamPlayer2D _fireSFXAudioStreamPlayer2D;
-	#endregion
-
 	#endregion
 
 	#region  Methods
@@ -95,11 +89,6 @@ public partial class PrototypeCharacter : CharacterBody2D
 		_characterAnimationTree.Active = true;
 
 		_characterMarker = GetNode<Marker2D>("PrototypeCharacterMarker2D");
-
-		_idleSFXAudioStreamPlayer2D = GetNode<AudioStreamPlayer2D>("PrototypeCharacterSFX/IdleSFXAudioStreamPlayer2D");
-		_moveSFXAudioStreamPlayer2D = GetNode<AudioStreamPlayer2D>("PrototypeCharacterSFX/MoveSFXAudioStreamPlayer2D");
-		_fireSFXAudioStreamPlayer2D = GetNode<AudioStreamPlayer2D>("PrototypeCharacterSFX/FireSFXAudioStreamPlayer2D");
-
 	}
 	#endregion
 
@@ -117,26 +106,26 @@ public partial class PrototypeCharacter : CharacterBody2D
 	{
 		if (isMoving)
 		{
-			if (_idleSFXAudioStreamPlayer2D.Playing)
+			if (SoundManager.IdleSFXAudioStreamPlayer2D.Playing)
 			{
-				_idleSFXAudioStreamPlayer2D.Stop();
+				SoundManager.IdleSFXAudioStreamPlayer2D.Stop();
 			}
 
-			if (!_moveSFXAudioStreamPlayer2D.Playing)
+			if (!SoundManager.MoveSFXAudioStreamPlayer2D.Playing)
 			{
-				_moveSFXAudioStreamPlayer2D.Play();
+				SoundManager.MoveSFXAudioStreamPlayer2D.Play();
 			}
 		}
 		else
 		{
-			if (!_idleSFXAudioStreamPlayer2D.Playing)
+			if (!SoundManager.IdleSFXAudioStreamPlayer2D.Playing)
 			{
-				_idleSFXAudioStreamPlayer2D.Play();
+				SoundManager.IdleSFXAudioStreamPlayer2D.Play();
 			}
 
-			if (_moveSFXAudioStreamPlayer2D.Playing)
+			if (SoundManager.MoveSFXAudioStreamPlayer2D.Playing)
 			{
-				_moveSFXAudioStreamPlayer2D.Stop();
+				SoundManager.MoveSFXAudioStreamPlayer2D.Stop();
 			}
 		}
 	}
@@ -262,7 +251,7 @@ public partial class PrototypeCharacter : CharacterBody2D
 	{
 		_characterCanShoot = false;
 
-		_fireSFXAudioStreamPlayer2D.Play();
+		SoundManager.FireSFXAudioStreamPlayer2D.Play();
 
 		ShellProjectile shellProjectile = (ShellProjectile)Projectile.Instantiate();
 

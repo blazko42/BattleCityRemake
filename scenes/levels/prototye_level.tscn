@@ -1,8 +1,7 @@
-[gd_scene load_steps=12 format=4 uid="uid://deqe8ew43sxd2"]
+[gd_scene load_steps=11 format=4 uid="uid://deqe8ew43sxd2"]
 
 [ext_resource type="Texture2D" uid="uid://6m7h4412dk5r" path="res://assets/sprites/battle_city_edge_tiles.png" id="1_d0g23"]
 [ext_resource type="Texture2D" uid="uid://ca3dufy8ko3da" path="res://assets/sprites/battle_city_tiles.png" id="1_ixqon"]
-[ext_resource type="Script" path="res://scripts/levels/prototype_level/PrototyeLevel.cs" id="1_l6hcp"]
 [ext_resource type="PackedScene" uid="uid://d2ar8dmff37en" path="res://scenes/characters/prototype_character.tscn" id="3_drqiw"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_2017e"]
@@ -827,7 +826,6 @@ sources/2 = SubResource("TileSetAtlasSource_843uj")
 sources/3 = SubResource("TileSetAtlasSource_l514o")
 
 [node name="PrototyeLevel" type="Node2D"]
-script = ExtResource("1_l6hcp")
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(124, 115)

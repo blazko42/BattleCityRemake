@@ -18,10 +18,6 @@ public partial class FriendlyBase : StaticBody2D
 	public PackedScene DestructionEffect;
 	#endregion
 
-	#region Sound effects
-	private AudioStreamPlayer2D _destroySFXAudioStreamPlayer2D;
-	#endregion
-
 	#endregion
 
 	#region  Methods
@@ -44,9 +40,6 @@ public partial class FriendlyBase : StaticBody2D
 		_friendlyBaseParentNode = GetParent<Node>();
 
 		_friendlyBaseSprite2D = GetNode<Sprite2D>("FriendlyBaseSprite2D");
-
-		_destroySFXAudioStreamPlayer2D = GetNode<AudioStreamPlayer2D>("FriendlyBaseSFX/DestroySFXAudioStreamPlayer2D");
-
 	}
 
 	#region Destruction effect
@@ -73,9 +66,9 @@ public partial class FriendlyBase : StaticBody2D
 
 	private void DestroySoundEffect()
 	{
-		if (!_destroySFXAudioStreamPlayer2D.Playing)
+		if (!SoundManager.DestroySFXAudioStreamPlayer2D.Playing)
 		{
-			_destroySFXAudioStreamPlayer2D.Play();
+			SoundManager.DestroySFXAudioStreamPlayer2D.Play();
 		}
 	}
 	#endregion

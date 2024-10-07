@@ -26,12 +26,6 @@ public partial class ShellProjectile : Area2D
 
     #endregion
 
-    #region Sound effects
-    private AudioStreamPlayer2D _collideWithArmoredTankSFXAudioStreamPlayer2D;
-    private AudioStreamPlayer2D _collideWithBrickWallSFXAudioStreamPlayer2D;
-    private AudioStreamPlayer2D _collideWithWallSFXAudioStreamPlayer2D;
-    #endregion
-
     #endregion
 
     #region  Methods
@@ -52,10 +46,6 @@ public partial class ShellProjectile : Area2D
     private void ReadySceneNodes()
     {
         _shellProjectileParentNode = GetParent<Node>();
-
-        _collideWithArmoredTankSFXAudioStreamPlayer2D = GetNode<AudioStreamPlayer2D>("ShellProjectileSFX/CollideWithArmoredTankSFXAudioStreamPlayer2D");
-        _collideWithBrickWallSFXAudioStreamPlayer2D = GetNode<AudioStreamPlayer2D>("ShellProjectileSFX/CollideWithBrickWallSFXAudioStreamPlayer2D");
-        _collideWithWallSFXAudioStreamPlayer2D = GetNode<AudioStreamPlayer2D>("ShellProjectileSFX/CollideWithWallSFXAudioStreamPlayer2D");
     }
     #endregion
 
@@ -64,9 +54,14 @@ public partial class ShellProjectile : Area2D
     {
         ExplodeEffect();
 
-        if (body is TileMapLayer && body.Name == "PrototypeLevelAssetsTileMapLayer")
+        if (body is TileMapLayer && body.Name == "PrototypeLevelBackgroundTileMapLayer")
         {
-            DestroyEnvironment((TileMapLayer)body);
+            HandleBackgroundCollision((TileMapLayer)body);
+        }
+
+        if (body is TileMapLayer && body.Name == "PrototypeLevelEnvironmentTileMapLayer")
+        {
+            HandleEnvironmentCollision((TileMapLayer)body);
         }
 
         if (body is StaticBody2D && body.Name == "PrototypeBase")
@@ -90,20 +85,33 @@ public partial class ShellProjectile : Area2D
     }
     #endregion
 
-    #region Environment
-    private void DestroyEnvironment(TileMapLayer tileMapLayer)
+    #region Background
+    private void HandleBackgroundCollision(TileMapLayer tileMapLayer)
     {
         Vector2I initialImpactCell = tileMapLayer.LocalToMap(GlobalPosition);
 
-        //add here sound effect for walls
-
         if (tileMapLayer.GetCellSourceId(initialImpactCell) != _emptyCellId)
         {
-            HandleEnvironmentDestruction(tileMapLayer, initialImpactCell);
+            BackgroundImpactSoundEffect();
+        }
+    }
+    #endregion
+
+    #region Environment
+    private void HandleEnvironmentCollision(TileMapLayer tileMapLayer)
+    {
+        Vector2I initialImpactCell = tileMapLayer.LocalToMap(GlobalPosition);
+        TileData initialImpactCellTileData = tileMapLayer.GetCellTileData(initialImpactCell);
+
+        EnvironmentImpactSoundEffect(initialImpactCellTileData);
+
+        if (tileMapLayer.GetCellSourceId(initialImpactCell) != _emptyCellId && initialImpactCellTileData.Terrain != 1)
+        {
+            DestroyEnvironment(tileMapLayer, initialImpactCell);
         }
     }
 
-    private void HandleEnvironmentDestruction(TileMapLayer tileMapLayer, Vector2I initialImpactCell)
+    private void DestroyEnvironment(TileMapLayer tileMapLayer, Vector2I initialImpactCell)
     {
 
         if (ShellHasVerticalDirection())
@@ -161,6 +169,28 @@ public partial class ShellProjectile : Area2D
         if (fourthCell != null)
         {
             tileMapLayer.SetCell(fourthCell.Value, _emptyCellId);
+        }
+    }
+
+    private void BackgroundImpactSoundEffect()
+    {
+        if (!SoundManager.CollideWithUnbreakableWallSFXAudioStreamPlayer2D.Playing)
+        {
+            SoundManager.CollideWithUnbreakableWallSFXAudioStreamPlayer2D.Play();
+        }
+    }
+
+    private void EnvironmentImpactSoundEffect(TileData impactCellTileData)
+    {
+        //brick wall
+        if (impactCellTileData.Terrain == 0 && !SoundManager.CollideWithBrickWallSFXAudioStreamPlayer2D.Playing)
+        {
+            SoundManager.CollideWithBrickWallSFXAudioStreamPlayer2D.Play();
+        }
+        //steel wall
+        else if (impactCellTileData.Terrain == 1 && !SoundManager.CollideWithUnbreakableWallSFXAudioStreamPlayer2D.Playing)
+        {
+            SoundManager.CollideWithUnbreakableWallSFXAudioStreamPlayer2D.Play();
         }
     }
 

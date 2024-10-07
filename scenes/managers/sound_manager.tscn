@@ -1,0 +1,51 @@
+[gd_scene load_steps=10 format=3 uid="uid://bxeabyvq367qq"]
+
+[ext_resource type="Script" path="res://scripts/managers/SoundManager.cs" id="1_ac2h0"]
+[ext_resource type="AudioStream" uid="uid://cs2q5woqnlsv0" path="res://assets/sounds/player/tank_idle.wav" id="1_ohfxh"]
+[ext_resource type="AudioStream" uid="uid://2kople4v6do0" path="res://assets/sounds/player/tank_move.wav" id="2_b21h4"]
+[ext_resource type="AudioStream" uid="uid://clj5bkvkte5jr" path="res://assets/sounds/player/tank_fire.wav" id="3_chvk3"]
+[ext_resource type="AudioStream" uid="uid://cey1crs4dnqf5" path="res://assets/sounds/menu/startup.mp3" id="4_v3q0a"]
+[ext_resource type="AudioStream" uid="uid://b61ppxj5gs2p0" path="res://assets/sounds/player/destroy.wav" id="5_ru7dh"]
+[ext_resource type="AudioStream" uid="uid://ckv142k60a0iq" path="res://assets/sounds/player/tank_fire_collide_with_armor_tank.wav" id="6_l64ma"]
+[ext_resource type="AudioStream" uid="uid://pd8nvgrivesi" path="res://assets/sounds/player/tank_fire_collide_with_brick.wav" id="7_a8clg"]
+[ext_resource type="AudioStream" uid="uid://cdnfiqt1uk0f" path="res://assets/sounds/player/tank_fire_collide_with_wall.wav" id="8_8w0sk"]
+
+[node name="SoundManager" type="Node2D"]
+script = ExtResource("1_ac2h0")
+
+[node name="Music" type="Node" parent="."]
+
+[node name="LevelStartSFXAudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="Music"]
+stream = ExtResource("4_v3q0a")
+bus = &"Music"
+area_mask = 0
+
+[node name="Effects" type="Node" parent="."]
+
+[node name="IdleSFXAudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="Effects"]
+stream = ExtResource("1_ohfxh")
+bus = &"Effects"
+
+[node name="MoveSFXAudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="Effects"]
+stream = ExtResource("2_b21h4")
+bus = &"Effects"
+
+[node name="FireSFXAudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="Effects"]
+stream = ExtResource("3_chvk3")
+bus = &"Effects"
+
+[node name="DestroySFXAudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="Effects"]
+stream = ExtResource("5_ru7dh")
+bus = &"Effects"
+
+[node name="CollideWithArmoredTankSFXAudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="Effects"]
+stream = ExtResource("6_l64ma")
+bus = &"Effects"
+
+[node name="CollideWithBrickWallSFXAudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="Effects"]
+stream = ExtResource("7_a8clg")
+bus = &"Effects"
+
+[node name="CollideWithUnbreakableWallSFXAudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="Effects"]
+stream = ExtResource("8_8w0sk")
+bus = &"Effects"
